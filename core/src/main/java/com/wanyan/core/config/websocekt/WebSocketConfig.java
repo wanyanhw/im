@@ -1,4 +1,4 @@
-package com.wanyan.core.config;
+package com.wanyan.core.config.websocekt;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

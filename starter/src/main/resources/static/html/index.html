@@ -13,6 +13,11 @@
     </div>
     <br/>
     <div style="margin: auto;text-align: center">
+        <select id="type">
+            <option value="1">个人</option>
+            <option value="2">群组</option>
+            <option value="3">未知</option>
+        </select>
         <input id="text" type="text" />
         <button onclick="send()">发送消息</button>
     </div>
@@ -63,7 +68,13 @@
         }
 
         function send() {
-            webSocket.send($("#text").val());
+            var type = $("#type").val();
+            var text = $("#text").val();
+            var message = {
+                "type": type,
+                "content": text
+            };
+            webSocket.send(JSON.stringify(message));
         }
 
         function reload() {
