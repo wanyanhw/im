@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanyan.core.mapper.MessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wanyan.core.entity.MessageEntity">
+        <id column="id" property="id" />
+        <result column="content_type" property="contentType" />
+        <result column="content_from" property="contentFrom" />
+        <result column="content_to" property="contentTo" />
+        <result column="content" property="content" />
+        <result column="send_time" property="sendTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, content_type, content_from, content_to, content, send_time, deleted
+    </sql>
+
+</mapper>

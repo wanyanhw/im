@@ -1,20 +1,27 @@
 package com.wanyan.controller;
 
+import com.wanyan.core.service.ImService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/im")
 @Api(tags = {"消息中心"})
 public class ImController {
+    @Autowired
+    private ImService imService;
 
-    @ApiOperation("发送消息")
-    @GetMapping("/websocket/{name}")
+    @ApiOperation("接收消息")
+    @GetMapping("/save/{from}")
     public String sendMsg(
-            @PathVariable String name,
-            @ApiParam(name = "msg", required = true) @RequestParam(value = "msg") String msg) {
-        return "hello, " + name;
+            @PathVariable("from") String from,
+            @ApiParam(name = "to", value = "接收者", required = true) @RequestParam(value = "to") String to,
+            @ApiParam(name = "type", value = "消息类型", required = true) @RequestParam(value = "type") Integer type,
+            @ApiParam(name = "msg", value = "消息体", required = true) @RequestParam(value = "msg") String msg) {
+        boolean b = imService.saveMsg(type, from, to, msg);
+        return b ? "success" : "fail";
     }
 }

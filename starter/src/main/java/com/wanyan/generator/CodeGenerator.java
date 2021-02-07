@@ -15,7 +15,7 @@ public class CodeGenerator {
     private final static String AUTHOR = "wanyanhw";
 
     private final static String MODULE_NAME = "core";
-    private final static String PARENT_PAGE = "com.wanyan.core";
+    private final static String PARENT_PAGE = "com.wanyan";
     private final static String ENTITY_PACKAGE = "entity";
     private final static String DAO_PACKAGE = "dao";
     private final static String DAO_IMPL_PACKAGE = "dao.impl";
@@ -32,14 +32,14 @@ public class CodeGenerator {
             "message"
     };
 
-    private static final String jdbcUrl = "jdbc:mysql://localhost:3306/im?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull";
+    private static final String jdbcUrl = "jdbc:mysql://localhost:3306/im?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     public static void main(String[] args) {
 
         // 全局配置
-        String projectPath = System.getProperty("user.dir");
+//        String projectPath = System.getProperty("user.dir");
         GlobalConfig gc = new GlobalConfig()
-                .setOutputDir(projectPath + "/src/main/java")
+                .setOutputDir(MODULE_NAME + "/src/main/java")
                 .setAuthor(AUTHOR)
                 .setOpen(false)
                 .setEntityName("%s" + ENTITY_SUFFIX)
@@ -54,7 +54,7 @@ public class CodeGenerator {
         DataSourceConfig dsc = new DataSourceConfig()
                 .setUrl(jdbcUrl)
                 // dsc.setSchemaName("public");
-                .setDriverName("com.mysql.jdbc.Driver")
+                .setDriverName("com.mysql.cj.jdbc.Driver")
                 .setUsername("root")
                 .setPassword("root");
 
@@ -86,7 +86,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapping/"
+                return MODULE_NAME + "/src/main/resources/mapping/"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
