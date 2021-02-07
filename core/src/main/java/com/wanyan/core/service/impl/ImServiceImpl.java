@@ -1,10 +1,16 @@
 package com.wanyan.core.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanyan.core.dao.IMessageDao;
 import com.wanyan.core.entity.MessageEntity;
 import com.wanyan.core.model.MessageModel;
 import com.wanyan.core.service.ImService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author wanyanhw
@@ -25,6 +31,26 @@ public class ImServiceImpl implements ImService {
         messageModel.setTo(to);
         messageModel.setContent(msg);
         return messageDao.save(transformModel(messageModel));
+    }
+
+    @Override
+    public Page<MessageModel> pageMsg(String from, Integer pageNo, Integer pageSize) {
+        IPage<MessageEntity> page = messageDao.page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<MessageEntity>().eq(MessageEntity::getContentFrom, from).eq(MessageEntity::getDeleted, 0));
+        return new Page<MessageModel>(page.getCurrent(), page.getSize(), page.getTotal()).setRecords(transformEntityList(page.getRecords()));
+    }
+
+    private List<MessageModel> transformEntityList(List<MessageEntity> records) {
+        return records.stream().map(this::transformEntity).collect(Collectors.toList());
+    }
+
+    private MessageModel transformEntity(MessageEntity entity) {
+        MessageModel model = new MessageModel();
+        model.setType(entity.getContentType());
+        model.setFrom(entity.getContentFrom());
+        model.setTo(entity.getContentTo());
+        model.setContent(entity.getContent());
+        model.setTime(entity.getSendTime());
+        return model;
     }
 
     private MessageEntity transformModel(MessageModel messageModel) {

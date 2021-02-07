@@ -1,5 +1,6 @@
 package com.wanyan.core.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanyan.core.model.MessageModel;
 
 /**
@@ -16,4 +17,13 @@ public interface ImService {
      * @return boolean
      */
     boolean saveMsg(Integer type, String from, String to, String msg);
+
+    /**
+     * 分页查询消息记录
+     * @param from 发送者
+     * @param pageNo 页码
+     * @param pageSize 页大小
+     * @return page
+     */
+    Page<MessageModel> pageMsg(String from, Integer pageNo, Integer pageSize);
 }

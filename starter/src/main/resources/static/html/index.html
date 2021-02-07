@@ -28,16 +28,24 @@
     </div>
     <hr/>
     <div id="message" style="text-align: center;"></div>
-
+    <div id="page_button" style="text-align: center">
+    </div>
+    <span id="current" style="display: none"></span>
+    <button id="prev">上一页</button>
+    <button id="next">下一页</button>
     <script type="text/javascript">
         var server_url = "localhost:8089/imcenter";
         var webSocket;
         var commWebSocket;
         var username = 1;
+        initMessageRecord(1, 20);
         connection();
         //将消息显示在网页上
         function setMessageInnerHTML(innerHTML) {
             document.getElementById('message').innerHTML += innerHTML + '<br/>';
+        }
+        function clearMessageInnerHTML() {
+            document.getElementById('message').innerHTML = '';
         }
 
         function closeWebSocket() {
@@ -52,7 +60,7 @@
                 "to": 2,
                 "content": text
             };
-            $.get("http://" + server_url + "/im/save/" + username, message,
+            $.get("http://" + server_url + "/im/message/save/" + username, message,
                 function (result) {
                 console.log("result", result);
                 webSocket.send(JSON.stringify(message));
@@ -85,6 +93,27 @@
             }
         }
 
+        function initMessageRecord(pageNo, pageSize) {
+            $.get("http://" + server_url + "/im/message/page/" + username, {"pageNo": pageNo, "pageSize": pageSize},
+                function (result) {
+                console.log("records", result);
+                var messageList = result.records;
+                clearMessageInnerHTML();
+                for (var i = 0; i < messageList.length; i ++) {
+                    setMessageInnerHTML(messageList[i].content);
+                }
+                $("#current").html(result.current);
+                $("#page_button").html("第" + result.current + "/" + result.pages + "页" );
+            });
+        }
+        $("#next").click(function () {
+            var current = $("#current").text();
+            initMessageRecord(parseInt(current) + 1, 20);
+        });
+        $("#prev").click(function () {
+            var current = $("#current").text();
+            initMessageRecord(parseInt(current) - 1, 20);
+        });
     </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.wanyan.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wanyan.core.model.MessageModel;
 import com.wanyan.core.service.ImService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +17,7 @@ public class ImController {
     private ImService imService;
 
     @ApiOperation("接收消息")
-    @GetMapping("/save/{from}")
+    @GetMapping("/message/save/{from}")
     public String sendMsg(
             @PathVariable("from") String from,
             @ApiParam(name = "to", value = "接收者", required = true) @RequestParam(value = "to") String to,
@@ -24,4 +26,15 @@ public class ImController {
         boolean b = imService.saveMsg(type, from, to, content);
         return b ? "success" : "fail";
     }
+
+    @ApiOperation("消息记录")
+    @GetMapping("/message/page/{from}")
+    public Page<MessageModel> pageMsg(
+            @PathVariable("from") String from,
+            @ApiParam(name = "pageNo", value = "页码", required = true) @RequestParam(value = "pageNo") Integer pageNo,
+            @ApiParam(name = "pageSize", value = "页大小", required = true) @RequestParam(value = "pageSize") Integer pageSize) {
+        return imService.pageMsg(from, pageNo, pageSize);
+    }
+
+
 }
