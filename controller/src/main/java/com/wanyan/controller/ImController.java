@@ -20,8 +20,8 @@ public class ImController {
             @PathVariable("from") String from,
             @ApiParam(name = "to", value = "接收者", required = true) @RequestParam(value = "to") String to,
             @ApiParam(name = "type", value = "消息类型", required = true) @RequestParam(value = "type") Integer type,
-            @ApiParam(name = "msg", value = "消息体", required = true) @RequestParam(value = "msg") String msg) {
-        boolean b = imService.saveMsg(type, from, to, msg);
+            @ApiParam(name = "content", value = "消息内容", required = true) @RequestParam(value = "content") String content) {
+        boolean b = imService.saveMsg(type, from, to, content);
         return b ? "success" : "fail";
     }
 }

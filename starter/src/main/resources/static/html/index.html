@@ -24,19 +24,45 @@
     <br>
     <div style="margin-right: 10px;text-align: right">
         <button onclick="closeWebSocket()">关闭连接</button>
-        <button onclick="reload()">重新连接</button>
+        <button onclick="connection()">重新连接</button>
     </div>
     <hr/>
     <div id="message" style="text-align: center;"></div>
 
     <script type="text/javascript">
+        var server_url = "localhost:8089/imcenter";
         var webSocket;
         var commWebSocket;
+        var username = 1;
         connection();
+        //将消息显示在网页上
+        function setMessageInnerHTML(innerHTML) {
+            document.getElementById('message').innerHTML += innerHTML + '<br/>';
+        }
+
+        function closeWebSocket() {
+            webSocket.close();
+        }
+
+        function send() {
+            var type = $("#type").val();
+            var text = $("#text").val();
+            var message = {
+                "type": type,
+                "to": 2,
+                "content": text
+            };
+            $.get("http://" + server_url + "/im/save/" + username, message,
+                function (result) {
+                console.log("result", result);
+                webSocket.send(JSON.stringify(message));
+            });
+
+        }
+
         function connection() {
             if ("WebSocket" in window) {
-                var username = 1;
-                webSocket = new WebSocket("ws://localhost:8089/imcenter/websocket/" + username);
+                webSocket = new WebSocket("ws://" + server_url + "/websocket/" + username);
 
                 //连通之后的回调事件
                 webSocket.onopen = function() {
@@ -57,28 +83,6 @@
             } else{
                 alert("您的浏览器不支持 WebSocket!");
             }
-        }
-        //将消息显示在网页上
-        function setMessageInnerHTML(innerHTML) {
-            document.getElementById('message').innerHTML += innerHTML + '<br/>';
-        }
-
-        function closeWebSocket() {
-            webSocket.close();
-        }
-
-        function send() {
-            var type = $("#type").val();
-            var text = $("#text").val();
-            var message = {
-                "type": type,
-                "content": text
-            };
-            webSocket.send(JSON.stringify(message));
-        }
-
-        function reload() {
-            connection();
         }
 
     </script>
