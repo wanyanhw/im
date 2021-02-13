@@ -9,9 +9,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Api(tags = {"消息中心"})
 @RestController
 @RequestMapping("/im")
-@Api(tags = {"消息中心"})
 public class ImController {
     @Autowired
     private ImService imService;
