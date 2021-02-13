@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * @author wanyanhw
  * @date 2021/2/11 11:11
  */
-@Api(tags = "{账户中心}")
+@Api(tags = {"账户中心"})
 @RestController
 @RequestMapping("/account")
 public class RegisterController {
