@@ -13,6 +13,8 @@ import lombok.Data;
 public class AccountBaseModel {
     @ApiModelProperty("用户ID")
     private String userId;
+    @ApiModelProperty("用户密码")
+    private String password;
     @ApiModelProperty("姓名")
     private String name;
     @ApiModelProperty("性别")

@@ -29,7 +29,9 @@ public class CodeGenerator {
     private final static String DAO_IMPL_SUFFIX = "DaoImpl";
 
     private final static String[] TABLES = {
-            "message"
+            "message",
+            "user",
+            "user_detail"
     };
 
     private static final String jdbcUrl = "jdbc:mysql://localhost:3306/im?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
