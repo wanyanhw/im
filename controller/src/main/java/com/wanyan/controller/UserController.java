@@ -1,5 +1,6 @@
 package com.wanyan.controller;
 
+import com.wanyan.core.config.BaseResponse;
 import com.wanyan.core.model.AccountBaseModel;
 import com.wanyan.core.service.UserService;
 import io.swagger.annotations.Api;
@@ -23,9 +24,8 @@ public class UserController {
      * @return String
      */
     @PostMapping("/subscribe")
-    public String register(@RequestBody AccountBaseModel account) {
-        String result = userService.subscribe(account);
-        return "申请成功，请牢记账号：" + result;
+    public BaseResponse register(@RequestBody AccountBaseModel account) {
+        return userService.subscribe(account);
     }
 
     /**
@@ -33,17 +33,17 @@ public class UserController {
      * @return String
      */
     @GetMapping("/unsubscribe")
-    public String unsubscribe(
+    public BaseResponse unsubscribe(
             @ApiParam(name = "userId", value = "用户账号", required = true) @RequestParam(value = "userId") String userId,
             @ApiParam(name = "password", value = "密码", required = true) @RequestParam(value = "password") String password) {
         return userService.unSubscribe(userId, password);
     }
 
     @GetMapping("/login")
-    public AccountBaseModel login(
-            @ApiParam(name = "userId", value = "账号", required = true) @RequestParam(value = "userId") String userId,
+    public BaseResponse login(
+            @ApiParam(name = "userNo", value = "账号", required = true) @RequestParam(value = "userNo") String userNo,
             @ApiParam(name = "password", value = "密码", required = true) @RequestParam(value = "password") String password) {
-        return userService.login(userId, password);
+        return userService.login(userNo, password);
     }
 
 }

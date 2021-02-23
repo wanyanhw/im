@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserDetailDao extends IService<UserDetailEntity> {
 
+    /**
+     * 获取用户详情
+     * @param userId 用户ID
+     * @return UserDetailEntity
+     */
+    UserDetailEntity getUserDetail(Integer userId);
 }

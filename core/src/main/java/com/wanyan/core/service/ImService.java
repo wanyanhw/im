@@ -1,6 +1,7 @@
 package com.wanyan.core.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wanyan.core.config.BaseResponse;
 import com.wanyan.core.model.MessageModel;
 
 /**
@@ -14,9 +15,9 @@ public interface ImService {
      * @param from 消息来源
      * @param to 消息接收
      * @param msg 消息内容
-     * @return boolean
+     * @return BaseResponse
      */
-    boolean saveMsg(Integer type, String from, String to, String msg);
+    BaseResponse saveMsg(Integer type, String from, String to, String msg);
 
     /**
      * 分页查询消息记录

@@ -3,6 +3,7 @@ package com.wanyan.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wanyan.core.config.BaseResponse;
 import com.wanyan.core.dao.IMessageDao;
 import com.wanyan.core.entity.MessageEntity;
 import com.wanyan.core.model.MessageModel;
@@ -24,13 +25,18 @@ public class ImServiceImpl implements ImService {
     }
 
     @Override
-    public boolean saveMsg(Integer type, String from, String to, String msg) {
+    public BaseResponse saveMsg(Integer type, String from, String to, String msg) {
         MessageModel messageModel = new MessageModel();
         messageModel.setType(type);
         messageModel.setFrom(from);
         messageModel.setTo(to);
         messageModel.setContent(msg);
-        return messageDao.save(transformModel(messageModel));
+        BaseResponse baseResponse = new BaseResponse();
+        boolean save = messageDao.save(transformModel(messageModel));
+        if (save) {
+            return baseResponse;
+        }
+        return baseResponse.setCode(100001).setMsg("保存失败");
     }
 
     @Override

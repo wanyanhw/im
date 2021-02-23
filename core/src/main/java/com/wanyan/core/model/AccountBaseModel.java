@@ -11,8 +11,8 @@ import lombok.Data;
 @ApiModel(value = "AccountBaseModel", description = "账户基本信息")
 @Data
 public class AccountBaseModel {
-    @ApiModelProperty("用户ID")
-    private String userId;
+    @ApiModelProperty("用户账号")
+    private String userNo;
     @ApiModelProperty("用户密码")
     private String password;
     @ApiModelProperty("姓名")

@@ -21,6 +21,7 @@ public class UserDaoImpl extends ServiceImpl<UserMapper, UserEntity> implements 
     @Override
     public UserEntity getOne(String userId, String password) {
         LambdaQueryWrapper<UserEntity> queryWrapper = new LambdaQueryWrapper<>();
-        return getOne(queryWrapper.eq(UserEntity::getDeleted, 0));
+        queryWrapper.eq(UserEntity::getDeleted, 0).eq(UserEntity::getUserNo, userId).eq(UserEntity::getPassword, password);
+        return getOne(queryWrapper);
     }
 }
