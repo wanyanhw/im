@@ -3,6 +3,8 @@ package com.wanyan.core.dao;
 import com.wanyan.core.entity.UserEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户注册表 服务类
@@ -20,4 +22,17 @@ public interface IUserDao extends IService<UserEntity> {
      * @return UserEntity
      */
     UserEntity getOne(String userId, String password);
+
+    /**
+     * 遍历所有账号
+     * @return List
+     */
+    List<UserEntity> listAllUser();
+
+    /**
+     * 根据用户账号获取用户信息
+     * @param userNo 账号
+     * @return UserEntity
+     */
+    UserEntity getOneByUserNo(String userNo);
 }

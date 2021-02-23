@@ -27,7 +27,14 @@ public interface UserService {
      * 用户登录
      * @param userNo 用户账号
      * @param password 用户密码
-     * @return AccountBaseModel 账号详情
+     * @return BaseResponse
      */
     BaseResponse login(String userNo, String password);
+
+    /**
+     * 验证账号合法性
+     * @param userNo 用户账号
+     * @return BaseResponse
+     */
+    BaseResponse verify(String userNo);
 }

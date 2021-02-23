@@ -24,7 +24,7 @@ public class UserController {
      * @return String
      */
     @PostMapping("/subscribe")
-    public BaseResponse register(@RequestBody AccountBaseModel account) {
+    public BaseResponse subscribe(@RequestBody AccountBaseModel account) {
         return userService.subscribe(account);
     }
 
@@ -44,6 +44,15 @@ public class UserController {
             @ApiParam(name = "userNo", value = "账号", required = true) @RequestParam(value = "userNo") String userNo,
             @ApiParam(name = "password", value = "密码", required = true) @RequestParam(value = "password") String password) {
         return userService.login(userNo, password);
+    }
+
+    /**
+     * 验证账号合法性
+     * @return String
+     */
+    @GetMapping("/account/verify")
+    public BaseResponse verify(@ApiParam(name = "userNo", value = "账号") @RequestParam(value = "userNo") String userNo) {
+        return userService.verify(userNo);
     }
 
 }
