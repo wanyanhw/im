@@ -11,7 +11,6 @@ import com.wanyan.core.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -22,7 +21,6 @@ import java.util.List;
  * @date 2021/2/22 10:32
  */
 @Service
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 @Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -31,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private IUserDetailDao userDetailDao;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public BaseResponse subscribe(AccountBaseModel baseModel) {
         BaseResponse<AccountBaseModel> baseResponse = new BaseResponse<>();
         String userNo = null;
@@ -53,6 +52,7 @@ public class UserServiceImpl implements UserService {
         UserDetailEntity userDetailEntity = transformModel(baseModel);
         userDetailEntity.setUserId(userEntity.getId());
         boolean save = userDetailDao.save(userDetailEntity);
+        int a = 10 / 0;
         if (save) {
             baseModel.setUserNo(userNo);
             return baseResponse.setData(baseModel);
