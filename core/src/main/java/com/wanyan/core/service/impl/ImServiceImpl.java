@@ -8,7 +8,8 @@ import com.wanyan.core.dao.IMessageDao;
 import com.wanyan.core.entity.MessageEntity;
 import com.wanyan.core.model.MessageModel;
 import com.wanyan.core.service.ImService;
-import org.springframework.stereotype.Service;
+import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +20,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ImServiceImpl implements ImService {
+    @Autowired
     private IMessageDao messageDao;
-    ImServiceImpl(IMessageDao messageDao) {
-        this.messageDao = messageDao;
-    }
 
     @Override
     public BaseResponse saveMsg(Integer type, String from, String to, String msg) {

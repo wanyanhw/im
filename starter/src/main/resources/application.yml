@@ -9,3 +9,18 @@ logging:
   level:
     com:
       wanyan: debug
+
+nacos:
+  config:
+    server-addr: 192.168.163.128:8848
+
+dubbo:
+  application:
+    name: nacos-imcenter
+  registry:
+    address: nacos://${nacos.config.server-addr}
+  scan:
+    base-packages: com.wanyan.core.service.impl
+  protocol:
+    port: 20881
+    name: dubbo

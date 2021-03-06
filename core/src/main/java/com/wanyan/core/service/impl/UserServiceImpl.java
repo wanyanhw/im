@@ -9,8 +9,8 @@ import com.wanyan.core.entity.UserEntity;
 import com.wanyan.core.model.AccountBaseModel;
 import com.wanyan.core.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
         UserDetailEntity userDetailEntity = transformModel(baseModel);
         userDetailEntity.setUserId(userEntity.getId());
         boolean save = userDetailDao.save(userDetailEntity);
-        int a = 10 / 0;
         if (save) {
             baseModel.setUserNo(userNo);
             return baseResponse.setData(baseModel);

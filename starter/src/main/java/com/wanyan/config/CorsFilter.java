@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -25,13 +26,15 @@ import java.util.List;
 @Slf4j
 @WebFilter(filterName = "corsFilter", urlPatterns = {"/*"})
 public class CorsFilter implements Filter {
+    @Value("${server.port}")
+    String port = "8080";
     private static final Logger logger = LoggerFactory.getLogger(CorsFilter.class);
 
-    private String allowOrigin = "http://***:8080,http://***:8089,http://localhost:8080,http://localhost:7071";
+    private String allowOrigin;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        allowOrigin = "http://localhost:" + port;
     }
 
     @Override

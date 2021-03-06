@@ -5,18 +5,18 @@ import com.wanyan.core.model.AccountBaseModel;
 import com.wanyan.core.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wanyanhw
  * @date 2021/2/11 11:11
  */
-@Api(tags = {"账户中心"})
+@Api(value = "UserController", tags = {"账户中心"})
 @RestController
 @RequestMapping("/account")
 public class UserController {
-    @Autowired
+    @Reference
     private UserService userService;
 
     /**
