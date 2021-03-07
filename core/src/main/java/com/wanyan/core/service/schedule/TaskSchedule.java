@@ -18,12 +18,12 @@ public class TaskSchedule {
     @Autowired
     private RedisOpsUtil redisOpsUtil;
 
-    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0/3 * * * * ?")
     private void printTimeEvery10Second() {
         Boolean absent = null;
         try {
-            long EXPIRE_TIME = 20000;
-            absent = redisOpsUtil.setValueIfAbsent(lockKey, lockKey, EXPIRE_TIME);
+            long expireTime = 20000;
+            absent = redisOpsUtil.setValueIfAbsent(lockKey, lockKey, expireTime);
             if (absent != null && absent) {
                 // 获得Redis分布式锁
                 System.out.println("-------------------------加锁--------------------");
