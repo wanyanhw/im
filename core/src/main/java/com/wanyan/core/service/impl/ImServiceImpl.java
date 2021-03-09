@@ -3,11 +3,11 @@ package com.wanyan.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wanyan.core.config.BaseResponse;
+import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.service.ImService;
 import com.wanyan.core.dao.IMessageDao;
 import com.wanyan.core.entity.MessageEntity;
-import com.wanyan.core.model.MessageModel;
-import com.wanyan.core.service.ImService;
+import com.wanyan.controller.model.MessageModel;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 

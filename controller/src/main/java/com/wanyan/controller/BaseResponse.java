@@ -1,4 +1,4 @@
-package com.wanyan.core.config;
+package com.wanyan.controller;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

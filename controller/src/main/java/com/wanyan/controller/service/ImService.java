@@ -1,8 +1,8 @@
-package com.wanyan.core.service;
+package com.wanyan.controller.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wanyan.core.config.BaseResponse;
-import com.wanyan.core.model.MessageModel;
+import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.model.MessageModel;
 
 /**
  * @author wanyanhw

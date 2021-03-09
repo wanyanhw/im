@@ -1,4 +1,4 @@
-package com.wanyan.core.model;
+package com.wanyan.controller.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

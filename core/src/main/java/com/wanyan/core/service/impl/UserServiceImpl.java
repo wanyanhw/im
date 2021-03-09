@@ -1,13 +1,13 @@
 package com.wanyan.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.wanyan.core.config.BaseResponse;
+import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.service.UserService;
 import com.wanyan.core.dao.IUserDao;
 import com.wanyan.core.dao.IUserDetailDao;
 import com.wanyan.core.entity.UserDetailEntity;
 import com.wanyan.core.entity.UserEntity;
-import com.wanyan.core.model.AccountBaseModel;
-import com.wanyan.core.service.UserService;
+import com.wanyan.controller.model.AccountBaseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;

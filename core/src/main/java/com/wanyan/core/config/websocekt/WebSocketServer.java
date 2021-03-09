@@ -2,7 +2,7 @@ package com.wanyan.core.config.websocekt;
 
 import com.wanyan.core.em.MessageTypeEnum;
 import com.wanyan.core.exception.EnumNoParamException;
-import com.wanyan.core.model.MessageModel;
+import com.wanyan.controller.model.MessageModel;
 import com.wanyan.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

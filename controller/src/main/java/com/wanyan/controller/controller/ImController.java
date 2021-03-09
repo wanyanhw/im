@@ -1,9 +1,9 @@
-package com.wanyan.controller;
+package com.wanyan.controller.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wanyan.core.config.BaseResponse;
-import com.wanyan.core.model.MessageModel;
-import com.wanyan.core.service.ImService;
+import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.model.MessageModel;
+import com.wanyan.controller.service.ImService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

@@ -1,8 +1,8 @@
-package com.wanyan.controller;
+package com.wanyan.controller.controller;
 
-import com.wanyan.core.config.BaseResponse;
-import com.wanyan.core.model.AccountBaseModel;
-import com.wanyan.core.service.UserService;
+import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.model.AccountBaseModel;
+import com.wanyan.controller.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.apache.dubbo.config.annotation.Reference;

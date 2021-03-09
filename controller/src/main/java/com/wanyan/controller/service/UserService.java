@@ -1,7 +1,7 @@
-package com.wanyan.core.service;
+package com.wanyan.controller.service;
 
-import com.wanyan.core.config.BaseResponse;
-import com.wanyan.core.model.AccountBaseModel;
+import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.model.AccountBaseModel;
 
 /**
  * @author wanyanhw
