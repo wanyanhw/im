@@ -2,18 +2,20 @@ package com.wanyan.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.model.AccountBaseModel;
 import com.wanyan.controller.service.UserService;
 import com.wanyan.core.dao.IUserDao;
 import com.wanyan.core.dao.IUserDetailDao;
 import com.wanyan.core.entity.UserDetailEntity;
 import com.wanyan.core.entity.UserEntity;
-import com.wanyan.controller.model.AccountBaseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -28,8 +30,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private IUserDetailDao userDetailDao;
 
+    @Resource(name = "imDataSource")
+    private DataSource dataSource;
+
     @Override
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public BaseResponse subscribe(AccountBaseModel baseModel) {
         BaseResponse<AccountBaseModel> baseResponse = new BaseResponse<>();
         String userNo = null;

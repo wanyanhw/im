@@ -18,7 +18,7 @@ public class TaskSchedule {
     @Autowired
     private RedisOpsUtil redisOpsUtil;
 
-    @Scheduled(cron = "0/3 * * * * ?")
+//    @Scheduled(cron = "0/3 * * * * ?")
     private void printTimeEvery10Second() {
         Boolean absent = null;
         try {
