@@ -17,7 +17,7 @@ public interface ImService {
      * @param msg 消息内容
      * @return BaseResponse
      */
-    BaseResponse saveMsg(Integer type, String from, String to, String msg);
+    BaseResponse saveMsg(Integer type, String from, String to, String msg) throws Exception;
 
     /**
      * 分页查询消息记录

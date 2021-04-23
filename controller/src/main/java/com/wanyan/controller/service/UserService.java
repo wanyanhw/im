@@ -13,7 +13,7 @@ public interface UserService {
      * @param baseModel 用户注册信息
      * @return BaseResponse
      */
-    BaseResponse subscribe(AccountBaseModel baseModel);
+    BaseResponse subscribe(AccountBaseModel baseModel) throws Exception;
 
     /**
      * 用户注销申请

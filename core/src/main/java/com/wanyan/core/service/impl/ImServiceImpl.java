@@ -10,6 +10,8 @@ import com.wanyan.core.entity.MessageEntity;
 import com.wanyan.controller.model.MessageModel;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +26,8 @@ public class ImServiceImpl implements ImService {
     private IMessageDao messageDao;
 
     @Override
-    public BaseResponse saveMsg(Integer type, String from, String to, String msg) {
+    @Transactional(rollbackFor = Exception.class, transactionManager = "imTransactionManager")
+    public BaseResponse saveMsg(Integer type, String from, String to, String msg) throws Exception{
         MessageModel messageModel = new MessageModel();
         messageModel.setType(type);
         messageModel.setFrom(from);
@@ -33,7 +36,7 @@ public class ImServiceImpl implements ImService {
         BaseResponse baseResponse = new BaseResponse();
         boolean save = messageDao.save(transformModel(messageModel));
         if (save) {
-            return baseResponse;
+            throw new NullPointerException("保存成功，抛出异常");
         }
         return baseResponse.setCode(100001).setMsg("保存失败");
     }

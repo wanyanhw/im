@@ -24,7 +24,12 @@ public class ImController {
             @ApiParam(name = "to", value = "接收者", required = true) @RequestParam(value = "to") String to,
             @ApiParam(name = "type", value = "消息类型", required = true) @RequestParam(value = "type") Integer type,
             @ApiParam(name = "content", value = "消息内容", required = true) @RequestParam(value = "content") String content) {
-        return imService.saveMsg(type, from, to, content);
+        try {
+            return imService.saveMsg(type, from, to, content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @ApiOperation("消息记录")

@@ -24,7 +24,7 @@ public class UserController {
      * @return String
      */
     @PostMapping("/subscribe")
-    public BaseResponse subscribe(@RequestBody AccountBaseModel account) {
+    public BaseResponse subscribe(@RequestBody AccountBaseModel account) throws Exception {
         return userService.subscribe(account);
     }
 
