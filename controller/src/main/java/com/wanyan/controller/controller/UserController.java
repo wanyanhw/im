@@ -5,8 +5,9 @@ import com.wanyan.controller.model.AccountBaseModel;
 import com.wanyan.controller.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @author wanyanhw
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/account")
 public class UserController {
-    @Reference
+    @Resource
     private UserService userService;
 
     /**

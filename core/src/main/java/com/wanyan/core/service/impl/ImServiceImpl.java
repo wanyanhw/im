@@ -4,15 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanyan.controller.BaseResponse;
+import com.wanyan.controller.model.MessageModel;
 import com.wanyan.controller.service.ImService;
 import com.wanyan.core.dao.IMessageDao;
 import com.wanyan.core.entity.MessageEntity;
-import com.wanyan.controller.model.MessageModel;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ImServiceImpl implements ImService {
-    @Autowired
+    @Resource
     private IMessageDao messageDao;
 
     @Override

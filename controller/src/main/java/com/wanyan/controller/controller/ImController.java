@@ -7,14 +7,15 @@ import com.wanyan.controller.service.ImService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @Api(value = "ImController", tags = {"消息中心"})
 @RestController
 @RequestMapping("/im")
 public class ImController {
-    @Reference
+    @Resource
     private ImService imService;
 
     @ApiOperation("接收消息")

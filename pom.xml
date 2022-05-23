@@ -67,6 +67,12 @@
         </dependency>
 
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.58.Final</version>
+        </dependency>
+
+        <!--<dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>nacos-config-spring-boot-starter</artifactId>
             <version>${nacos-starter.version}</version>
@@ -92,7 +98,7 @@
             <version>${dubbo.version}</version>
         </dependency>
 
-        <!-- dubbo -->
+        &lt;!&ndash; dubbo &ndash;&gt;
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -103,7 +109,7 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.auth0</groupId>

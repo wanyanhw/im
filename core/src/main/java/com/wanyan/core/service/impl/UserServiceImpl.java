@@ -10,12 +10,11 @@ import com.wanyan.core.dao.IUserDetailDao;
 import com.wanyan.core.entity.UserDetailEntity;
 import com.wanyan.core.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,12 +24,12 @@ import java.util.List;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private IUserDao userDao;
-    @Autowired
+    @Resource
     private IUserDetailDao userDetailDao;
 
-    @Autowired
+    @Resource
     private ImService imService;
 
     @Override
