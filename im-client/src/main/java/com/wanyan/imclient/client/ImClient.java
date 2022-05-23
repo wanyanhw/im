@@ -27,6 +27,8 @@ public class ImClient {
         }
     }
 
+    private String name = "only one";
+
     public void run(String host, int port) throws Exception {
         NioEventLoopGroup loopGroup = new NioEventLoopGroup();
         try {
@@ -44,7 +46,7 @@ public class ImClient {
             ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
             System.out.println("客户端已启动");
             Channel channel = channelFuture.channel();
-            System.out.println("客户端ID： " + channel.id().asLongText());
+            System.out.println("客户端ID： " + name);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
             String readLine = bufferedReader.readLine();
             while (!"exit".equals(readLine)) {
