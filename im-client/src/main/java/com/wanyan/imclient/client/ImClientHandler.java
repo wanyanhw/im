@@ -10,9 +10,16 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class ImClientHandler extends SimpleChannelInboundHandler<String> {
 
+    private ClientCacheTemplate cacheTemplate = ClientCacheTemplate.instance();
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), msg));
+    }
+
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), "已退出"));
     }
 
     @Override
@@ -23,5 +30,6 @@ public class ImClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         System.out.println("handlerAdded");
+        cacheTemplate.saveChannel(CacheUtil.getClient(), ctx.channel());
     }
 }

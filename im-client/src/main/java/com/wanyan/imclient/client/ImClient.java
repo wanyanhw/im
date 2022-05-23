@@ -1,7 +1,6 @@
 package com.wanyan.imclient.client;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,9 +8,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 /**
  * 即时通讯客户端
@@ -27,7 +23,16 @@ public class ImClient {
         }
     }
 
+    private static ChannelFuture channelFuture;
+
+    public void close() {
+        channelFuture.channel().close();
+    }
+
     public void run(String host, int port) throws Exception {
+        if (channelFuture != null) {
+            close();
+        }
         NioEventLoopGroup loopGroup = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
@@ -41,16 +46,9 @@ public class ImClient {
                             ch.pipeline().addLast(new ImClientHandler());
                         }
                     });
-            ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
-            System.out.println("客户端已启动");
-            Channel channel = channelFuture.channel();
-            System.out.println("客户端ID： " + channel.id().asLongText());
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-            String readLine = bufferedReader.readLine();
-            while (!"exit".equals(readLine)) {
-                channel.writeAndFlush(readLine);
-                readLine = bufferedReader.readLine();
-            }
+            channelFuture = bootstrap.connect(host, port).sync();
+            System.out.println("客户端已启动，ID:" + channelFuture.channel().id().asLongText());
+            channelFuture.channel().closeFuture().sync();
         } finally {
             loopGroup.shutdownGracefully();
         }

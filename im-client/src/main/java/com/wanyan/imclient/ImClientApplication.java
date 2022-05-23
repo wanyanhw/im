@@ -10,11 +10,6 @@ public class ImClientApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ImClientApplication.class, args);
-        try {
-            new ImClient().run("127.0.0.1", 8888);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }

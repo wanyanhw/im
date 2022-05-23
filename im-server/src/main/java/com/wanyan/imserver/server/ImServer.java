@@ -41,7 +41,7 @@ public class ImServer {
                         }
                     });
             ChannelFuture channelFuture = bootstrap.bind(host, port).sync();
-            System.out.println("服务端启动成功。。。");
+            System.out.println("服务端已启动，ID: " + channelFuture.channel().id().asLongText());
             channelFuture.channel().closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();

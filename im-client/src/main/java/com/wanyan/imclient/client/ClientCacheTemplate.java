@@ -3,7 +3,6 @@ package com.wanyan.imclient.client;
 import io.netty.channel.Channel;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,8 +20,8 @@ public class ClientCacheTemplate {
 
     public static Map<String, Channel> channelMap = new ConcurrentHashMap<>();
 
-    public void saveChannel(Channel channel) {
-        channelMap.putIfAbsent(channel.id().asLongText(), channel);
+    public void saveChannel(String name, Channel channel) {
+        channelMap.putIfAbsent(name, channel);
     }
 
     public Channel getChannel(String name) {
@@ -36,9 +35,5 @@ public class ClientCacheTemplate {
             return "success";
         }
         return "fail";
-    }
-
-    public Set<String> onlineList() {
-        return channelMap.keySet();
     }
 }
