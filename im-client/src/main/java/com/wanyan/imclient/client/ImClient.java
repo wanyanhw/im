@@ -1,6 +1,8 @@
 package com.wanyan.imclient.client;
 
+import com.alibaba.fastjson.JSONObject;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -8,30 +10,28 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import lombok.Getter;
+import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /**
  * 即时通讯客户端
  * @author wanyanhw
  * @date 2022/5/6 16:55
  */
+@Component
 public class ImClient {
-    public static void main(String[] args) {
-        try {
-            new ImClient().run("127.0.0.1", 8888);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    private static ChannelFuture channelFuture;
+    private final String EXIT = "exit";
 
-    public void close() {
-        channelFuture.channel().close();
-    }
+    @Getter
+    private ChannelFuture channelFuture;
 
-    public void run(String host, int port) throws Exception {
+    public void run(String host, int port) {
         if (channelFuture != null) {
-            close();
+            closeChannel();
         }
         NioEventLoopGroup loopGroup = new NioEventLoopGroup();
         try {
@@ -47,10 +47,37 @@ public class ImClient {
                         }
                     });
             channelFuture = bootstrap.connect(host, port).sync();
-            System.out.println("客户端已启动，ID:" + channelFuture.channel().id().asLongText());
-            channelFuture.channel().closeFuture().sync();
+            Channel channel = channelFuture.channel();
+            System.out.println("客户端已启动，ID:" + channel.id().asLongText());
+
+            ClientUser clientUser = new ClientUser();
+            clientUser.setName(CacheUtil.getClient());
+            clientUser.setChannelId(channel.id().asLongText());
+
+            this.sendMsg(JSONObject.toJSONString(clientUser));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            String readLine;
+            StringBuilder stringBuilder = new StringBuilder();
+            do {
+                readLine = bufferedReader.readLine();
+                stringBuilder.append("{\"msg\":\"").append(readLine).append("\"}");
+                this.sendMsg(stringBuilder.toString());
+                stringBuilder.delete(0, stringBuilder.length());
+            } while (!EXIT.equals(readLine.toLowerCase()));
+            closeChannel();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             loopGroup.shutdownGracefully();
         }
+    }
+
+    public void sendMsg(String msg) {
+        Channel channel = channelFuture.channel();
+        channel.writeAndFlush(msg);
+    }
+
+    public void closeChannel() {
+        channelFuture.channel().close();
     }
 }

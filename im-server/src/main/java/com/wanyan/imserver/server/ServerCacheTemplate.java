@@ -18,8 +18,8 @@ public class ServerCacheTemplate {
         return channelMap.keySet();
     }
 
-    public void saveChannel(Channel channel) {
-        channelMap.putIfAbsent(channel.id().asLongText(), channel);
+    public void saveChannel(String name, Channel channel) {
+        channelMap.put(name, channel);
     }
 
     public Channel getChannel(String name) {
@@ -40,4 +40,17 @@ public class ServerCacheTemplate {
         });
     }
 
+    public void clear() {
+        channelMap.clear();
+    }
+
+    public String getClientName(String channelId) {
+        for (Map.Entry<String, Channel> channelMap : channelMap.entrySet()) {
+            Channel channel = channelMap.getValue();
+            if (channelId.equals(channel.id().asLongText())) {
+                return channelMap.getKey();
+            }
+        }
+        return null;
+    }
 }

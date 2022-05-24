@@ -1,5 +1,6 @@
 package com.wanyan.imserver.server;
 
+import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -14,30 +15,42 @@ public class ImServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), msg));
-        serverCacheTemplate.sendToAll(msg);
+        Channel ctxChannel = ctx.channel();
+        JSONObject jsonMsg = JSONObject.parseObject(msg);
+        Integer messageType = jsonMsg.getInteger("messageType");
+        if (messageType != null && messageType == 1) {
+            String name = jsonMsg.getString("name");
+            serverCacheTemplate.saveChannel(name, ctxChannel);
+            System.out.println(LogUtil.buildLog(name, "上线"));
+            return;
+        }
+        String clientName = serverCacheTemplate.getClientName(ctxChannel.id().asLongText());
+        if (clientName == null) {
+            ctxChannel.writeAndFlush("未登录");
+            return;
+        }
+        System.out.println(LogUtil.buildLog(clientName, msg));
     }
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        Channel ctxChannel = ctx.channel();
-        System.out.println(LogUtil.buildLog(ctxChannel.id().asLongText(), "加入频道"));
-        serverCacheTemplate.saveChannel(ctxChannel);
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), "已退出"));
+        String clientName = serverCacheTemplate.getClientName(ctx.channel().id().asLongText());
+        System.out.println(LogUtil.buildLog(clientName, "下线"));
+        serverCacheTemplate.clear();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), "异常关闭"));
+        String clientName = serverCacheTemplate.getClientName(ctx.channel().id().asLongText());
+        System.out.println(LogUtil.buildLog(clientName, "账号异常"));
         ctx.channel().close();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), "上线了"));
     }
 }

@@ -11,7 +11,7 @@ public class ImServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ImServerApplication.class, args);
         try {
-            new ImServer().run("127.0.0.1", 8888);
+            new ImServer().run("192.168.100.10", 8888);
         } catch (Exception e) {
             e.printStackTrace();
         }
