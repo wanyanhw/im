@@ -1,5 +1,6 @@
 package com.wanyan.imclient.client;
 
+import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -12,7 +13,13 @@ public class ImClientHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println(LogUtil.buildLog(ctx.channel().id().asLongText(), msg));
+        JSONObject jsonMsg = JSONObject.parseObject(msg);
+        String clientName = jsonMsg.getString("client");
+        String message = jsonMsg.getString("msg");
+        if (CacheUtil.getClient().equals(clientName)) {
+            clientName = "我";
+        }
+        System.out.println(LogUtil.buildLog(clientName, message));
     }
 
     @Override
