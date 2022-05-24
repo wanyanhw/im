@@ -17,7 +17,7 @@ public class ImClientHandler extends SimpleChannelInboundHandler<String> {
         String clientName = jsonMsg.getString("client");
         String message = jsonMsg.getString("msg");
         if (CacheUtil.getClient().equals(clientName)) {
-            clientName = "我";
+            clientName +="（我）";
         }
         System.out.println(LogUtil.buildLog(clientName, message));
     }
