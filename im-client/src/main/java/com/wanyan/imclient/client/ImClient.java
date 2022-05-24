@@ -12,6 +12,7 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -60,6 +61,9 @@ public class ImClient {
             StringBuilder stringBuilder = new StringBuilder();
             do {
                 readLine = bufferedReader.readLine();
+                if (!StringUtils.hasLength(readLine)) {
+                    continue;
+                }
                 stringBuilder.append("{\"msg\":\"").append(readLine).append("\"}");
                 this.sendMsg(stringBuilder.toString());
                 stringBuilder.delete(0, stringBuilder.length());

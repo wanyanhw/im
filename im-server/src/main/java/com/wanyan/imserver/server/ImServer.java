@@ -16,14 +16,8 @@ import io.netty.handler.codec.string.StringEncoder;
  * @date 2022/5/6 16:55
  */
 public class ImServer {
-    public static void main(String[] args) {
-        try {
-            new ImServer().run("127.0.0.1", 8888);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    public void run(String host, int port) throws InterruptedException {
+
+    public void run(String host, int port) {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -43,6 +37,8 @@ public class ImServer {
             ChannelFuture channelFuture = bootstrap.bind(host, port).sync();
             System.out.println("服务端已启动，ID: " + channelFuture.channel().id().asLongText());
             channelFuture.channel().closeFuture().sync();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
