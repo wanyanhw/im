@@ -53,4 +53,8 @@ public class ServerCacheTemplate {
         }
         return null;
     }
+
+    public void remove(String clientName) {
+        channelMap.remove(clientName);
+    }
 }

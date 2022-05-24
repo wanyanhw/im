@@ -22,6 +22,10 @@ public class ImServerHandler extends SimpleChannelInboundHandler<String> {
             String name = jsonMsg.getString("name");
             serverCacheTemplate.saveChannel(name, ctxChannel);
             System.out.println(LogUtil.buildLog(name, "上线"));
+            JSONObject s = new JSONObject();
+            s.put("client", name);
+            s.put("msg", "上线");
+            serverCacheTemplate.sendToAll(s.toJSONString());
             return;
         }
         String clientName = serverCacheTemplate.getClientName(ctxChannel.id().asLongText());
@@ -30,6 +34,11 @@ public class ImServerHandler extends SimpleChannelInboundHandler<String> {
             return;
         }
         System.out.println(LogUtil.buildLog(clientName, msg));
+
+        JSONObject s = new JSONObject();
+        s.put("client", clientName);
+        s.putAll(jsonMsg);
+        serverCacheTemplate.sendToAll(s.toJSONString());
     }
 
     @Override
@@ -39,8 +48,13 @@ public class ImServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         String clientName = serverCacheTemplate.getClientName(ctx.channel().id().asLongText());
+        serverCacheTemplate.remove(clientName);
         System.out.println(LogUtil.buildLog(clientName, "下线"));
-        serverCacheTemplate.clear();
+
+        JSONObject s = new JSONObject();
+        s.put("client", clientName);
+        s.put("msg", "下线");
+        serverCacheTemplate.sendToAll(s.toJSONString());
     }
 
     @Override
@@ -48,6 +62,11 @@ public class ImServerHandler extends SimpleChannelInboundHandler<String> {
         String clientName = serverCacheTemplate.getClientName(ctx.channel().id().asLongText());
         System.out.println(LogUtil.buildLog(clientName, "账号异常"));
         ctx.channel().close();
+
+        JSONObject s = new JSONObject();
+        s.put("client", clientName);
+        s.put("msg", "账号异常");
+        serverCacheTemplate.sendToAll(s.toJSONString());
     }
 
     @Override
