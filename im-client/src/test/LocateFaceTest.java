@@ -7,16 +7,16 @@ import org.opencv.objdetect.CascadeClassifier;
  * @author wanyanhw
  * @date 2022/5/26 15:47
  */
-public class OpenCVTest {
+public class LocateFaceTest {
 
     public void markFaceInImage() {
         System.out.println("\nRunning DetectFaceDemo");
         // Create a face detector from the cascade file in the resources
         // directory.
         CascadeClassifier faceDetector = new CascadeClassifier("D:\\opencv\\opencv\\sources\\data\\lbpcascades\\lbpcascade_frontalface.xml");
-        String[] picPathArr = new String[25];
+        String[] picPathArr = new String[1];
         for (int i = 0; i < picPathArr.length; i++) {
-            picPathArr[i] = "E:/space/idea/im/im-client/target/classes/girls.jpg";
+            picPathArr[i] = "E:/space/idea/im/im-client/target/classes/lena.png";
         }
 //        picPathArr[0] = "E:/space/idea/im/im-client/target/classes/girls.jpg";
 //        picPathArr[1] = "E:/space/idea/im/im-client/target/classes/lena.png";
@@ -55,7 +55,7 @@ public class OpenCVTest {
         public static void main(String[] args) {
             System.out.println("Hello, OpenCV");
             System.load("D:\\opencv\\opencv\\build\\java\\x64\\opencv_java455.dll");
-            new OpenCVTest().markFaceInImage();
+            new LocateFaceTest().markFaceInImage();
         }
     }
 }
