@@ -8,6 +8,7 @@ import org.opencv.objdetect.CascadeClassifier;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 /**
  * @author wanyanhw
@@ -18,12 +19,19 @@ public class VideoGrabberTest {
     static {
         System.load("D:\\opencv\\opencv\\build\\java\\x64\\opencv_java455.dll");
     }
+
+    /**
+     * 缓冲池
+     */
+    private static transient LinkedList<ImageIcon> imageBuffer = new LinkedList<>();
+
     private static CascadeClassifier faceDetector = new CascadeClassifier("D:\\opencv\\opencv\\sources\\data\\lbpcascades\\lbpcascade_frontalface_improved.xml");
+
     public static void main(String[] args) {
 
         String path = "E:\\resources\\video\\video2_sub.mp4";
 //        path = "E:\\space\\idea\\im\\im-client\\src\\main\\resources\\lena.png";
-        path = "E:\\resources\\video\\baby.mp4";
+//        path = "E:\\resources\\video\\baby.mp4";
         new VideoGrabberTest().play(path);
     }
 
@@ -31,13 +39,9 @@ public class VideoGrabberTest {
        try {
             FFmpegFrameGrabber grabber = FFmpegFrameGrabber.createDefault(path);
             grabber.start();
-            JFrame jFrame = new JFrame();
-            jFrame.setSize(800, 600);
-            jFrame.setVisible(true);
-            JLabel jLabel = new JLabel();
-            jFrame.add(jLabel);
             int total = 0;
             for (; ; total++) {
+                long begin = System.currentTimeMillis();
                 Frame frame = grabber.grabImage();
                 if (frame == null) {
                     break;
@@ -48,12 +52,48 @@ public class VideoGrabberTest {
                 image = getDetectedBufferedImage(image);
 
                 ImageIcon imageIcon = new ImageIcon(image);
-                System.out.println("已添加:" + total);
-                jLabel.setIcon(imageIcon);
+                System.out.println(String.format("已添加: %d, cost: %d", total, System.currentTimeMillis() - begin));
+                imageBuffer.offer(imageIcon);
+                if (total == 200) {
+                    new Thread(this::show).start();
+                }
             }
         } catch (FrameGrabber.Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void show() {
+        JFrame jFrame = new JFrame();
+        jFrame.setSize(800, 600);
+        jFrame.setVisible(true);
+        JLabel jLabel = new JLabel();
+        jFrame.add(jLabel);
+        ImageIcon imageIcon;
+        while (true) {
+            imageIcon = imageBuffer.poll();
+            if (imageIcon == null) {
+                try {
+                    Thread.sleep(5000);
+                    if (imageBuffer.size() == 0) {
+                        // 不再继续加载图片时，跳出循环
+                        break;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            long begin = System.currentTimeMillis();
+            jLabel.setIcon(imageIcon);
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(String.format("剩余: %d, cost: %d", imageBuffer.size(), System.currentTimeMillis() - begin));
+        }
+        System.out.println("播放结束");
+        jFrame.dispose();
     }
 
     /**
