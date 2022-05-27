@@ -27,7 +27,7 @@ public class ClientSendController {
         // 3、连接服务器
         // 4、通知服务器：客户端已上线，并绑定账号和通道关系
         CacheUtil.setClientName(name);
-        new Thread(() -> client.run("192.168.100.10", 8888)).start();
+        client.run("192.168.100.10", 8888);
         return name;
     }
 

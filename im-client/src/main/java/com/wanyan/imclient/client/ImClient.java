@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.Getter;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -30,6 +31,7 @@ public class ImClient {
     @Getter
     private ChannelFuture channelFuture;
 
+    @Async(value = "asyncTaskExecutor")
     public void run(String host, int port) {
         if (channelFuture != null) {
             closeChannel();

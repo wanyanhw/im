@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @date 2022/5/27 13:43
  */
 @Configuration
-public class ExecutorConfig {
+public class ClientExecutorConfig {
 
     @Bean(name = "asyncTaskExecutor")
     public AsyncTaskExecutor asyncTaskExecutor() {
@@ -21,6 +21,7 @@ public class ExecutorConfig {
         executor.setMaxPoolSize(500);
         executor.setQueueCapacity(1000);
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setThreadNamePrefix("client-");
         executor.initialize();
         return executor;
     }

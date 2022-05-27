@@ -5,18 +5,19 @@ import com.wanyan.imclient.client.ImClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.Resource;
 
+@EnableAsync
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class ImClientApplication {
 
-    private static AsyncTaskExecutor asyncTaskExecutor;
+    private static ImClient client;
 
     @Resource
-    public void setAsyncTaskExecutor(AsyncTaskExecutor executor) {
-        asyncTaskExecutor = executor;
+    public void setClient(ImClient c) {
+        client = c;
     }
 
     public static void main(String[] args) {
@@ -28,7 +29,7 @@ public class ImClientApplication {
             clientName = args[0];
         }
         CacheUtil.setClientName(clientName);
-        asyncTaskExecutor.submit(() -> new ImClient().run("192.168.100.10", 8888));
+        client.run("192.168.100.10", 8888);
     }
 
 }

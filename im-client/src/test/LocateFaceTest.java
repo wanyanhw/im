@@ -1,13 +1,20 @@
+import com.wanyan.imclient.ClientExecutorConfig;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+import org.springframework.core.task.AsyncTaskExecutor;
 
 /**
  * @author wanyanhw
  * @date 2022/5/26 15:47
  */
 public class LocateFaceTest {
+    private static AsyncTaskExecutor executor;
+    static {
+        ClientExecutorConfig executorConfig = new ClientExecutorConfig();
+        executor = executorConfig.asyncTaskExecutor();
+    }
 
     public void markFaceInImage() {
         System.out.println("\nRunning DetectFaceDemo");
@@ -39,7 +46,7 @@ public class LocateFaceTest {
             }
         }
 
-        new Thread(() -> {
+        executor.submit(() -> {
             for (int i = 0; i < mats.length; i++) {
                 // Save the visualized detection.
                 long begin = System.currentTimeMillis();
@@ -48,7 +55,7 @@ public class LocateFaceTest {
                 long end = System.currentTimeMillis();
                 System.out.println(String.format("Writing %s, cost %d ms", filename, end - begin));
             }
-        }).start();
+        });
     }
 
     public static class HelloOpenCV {

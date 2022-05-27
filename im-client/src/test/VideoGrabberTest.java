@@ -1,4 +1,4 @@
-import com.wanyan.imclient.ExecutorConfig;
+import com.wanyan.imclient.ClientExecutorConfig;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
@@ -20,7 +20,7 @@ public class VideoGrabberTest {
     private static AsyncTaskExecutor executor;
     static {
         System.load("D:\\opencv\\opencv\\build\\java\\x64\\opencv_java455.dll");
-        ExecutorConfig executorConfig = new ExecutorConfig();
+        ClientExecutorConfig executorConfig = new ClientExecutorConfig();
         executor = executorConfig.asyncTaskExecutor();
     }
 
