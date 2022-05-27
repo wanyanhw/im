@@ -1,3 +1,4 @@
+import com.wanyan.imclient.ExecutorConfig;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
@@ -5,6 +6,7 @@ import org.bytedeco.javacv.Java2DFrameConverter;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+import org.springframework.core.task.AsyncTaskExecutor;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -15,9 +17,11 @@ import java.util.LinkedList;
  * @date 2022/5/26 17:16
  */
 public class VideoGrabberTest {
-
+    private static AsyncTaskExecutor executor;
     static {
         System.load("D:\\opencv\\opencv\\build\\java\\x64\\opencv_java455.dll");
+        ExecutorConfig executorConfig = new ExecutorConfig();
+        executor = executorConfig.asyncTaskExecutor();
     }
 
     /**
@@ -55,7 +59,7 @@ public class VideoGrabberTest {
                 System.out.println(String.format("已添加: %d, cost: %d", total, System.currentTimeMillis() - begin));
                 imageBuffer.offer(imageIcon);
                 if (total == 200) {
-                    new Thread(this::show).start();
+                    executor.submit(this::show);
                 }
             }
         } catch (FrameGrabber.Exception e) {
@@ -74,7 +78,7 @@ public class VideoGrabberTest {
             imageIcon = imageBuffer.poll();
             if (imageIcon == null) {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(10000);
                     if (imageBuffer.size() == 0) {
                         // 不再继续加载图片时，跳出循环
                         break;
